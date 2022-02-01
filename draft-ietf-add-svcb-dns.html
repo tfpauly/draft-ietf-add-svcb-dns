@@ -9,12 +9,12 @@
 <meta content="
        The SVCB DNS record type expresses a bound collection of endpoint metadata, for use when establishing a connection to a named service.  DNS itself can be such a service, when the server is identified by a domain name.  This document provides the SVCB mapping for named DNS servers, allowing them to indicate support for new transport protocols. 
     " name="description">
-<meta content="xml2rfc 3.10.0" name="generator">
+<meta content="xml2rfc 3.12.0" name="generator">
 <meta content="Internet-Draft" name="keyword">
 <meta content="draft-ietf-add-svcb-dns-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.10.0
-    Python 3.9.5
+  xml2rfc 3.12.0
+    Python 3.9.7
     appdirs 1.4.4
     ConfigArgParse 1.3
     google-i18n-address 2.5.0
@@ -22,13 +22,13 @@
     intervaltree 3.1.0
     Jinja2 2.11.3
     kitchen 1.2.6
-    lxml 4.6.3
+    lxml 4.6.5
     pycountry 20.7.3
-    pyflakes 2.3.0
+    pyflakes 2.3.1
     PyYAML 5.4.1
-    requests 2.25.1
+    requests 2.26.0
     setuptools 52.0.0
-    six 1.15.0
+    six 1.16.0
 -->
 <link href="draft-ietf-add-svcb-dns.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
@@ -197,7 +197,8 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-html {
+:root {
+  color-scheme: light dark;
   --background-color: #fff;
   --text-color: #222;
   --title-color: #191919;
@@ -207,20 +208,8 @@ html {
   --pilcrow-weak: #ddd;
   --pilcrow-strong: #bbb;
   --small-font-size: 14.5px;
+  --font-mono: 'Oxygen Mono', monospace;
   scrollbar-color: #bbb #eee;
-}
-@media (prefers-color-scheme: dark) {
-html {
-  --background-color: #121212;
-  --text-color: #f0f0f0;
-  --title-color: #fff;
-  --link-color: #4da4f0;
-  --highlight-color: #282828;
-  --line-color: #444;
-  --pilcrow-weak: #444;
-  --pilcrow-strong: #666;
-  scrollbar-color: #777 #333;
-}
 }
 body {
   max-width: 600px;
@@ -313,6 +302,10 @@ div {
 }
 svg {
   display: block;
+}
+/* font-family isn't space-separated, but =~ will have to do */
+svg[font-family~="monospace" i], svg [font-family~="monospace" i] {
+  font-family: var(--font-mono);
 }
 .alignCenter.art-text {
   background-color: var(--highlight-color);
@@ -408,7 +401,7 @@ a.xref {
 /* Figures */
 tt, code, pre {
   background-color: var(--highlight-color);
-  font: 14px/22px 'Oxygen Mono', monospace;
+  font: 14px/22px var(--font-mono);
 }
 tt, code {
   /* changing the font for inline elements leads to different ascender
@@ -440,17 +433,22 @@ figcaption, caption {
   text-align: left;
 }
 @media screen {
-  pre {
+  pre, svg {
     display: inline-block;
     overflow-x: auto;
+  }
+  pre {
     max-width: 100%;
     width: calc(100% - 22px - 1em);
+  }
+  svg {
+    max-width: calc(100% - 22px - 1em);
   }
   figure pre {
     display: block;
     width: calc(100% - 25px);
   }
-  pre + .pilcrow {
+  pre + .pilcrow, svg + .pilcrow {
     display: inline-block;
     vertical-align: text-bottom;
     padding-bottom: 8px;
@@ -634,36 +632,8 @@ hr {
 }
 
 /* index */
-.index ul {
-  margin: 0 0 0 1em;
-  padding: 0;
-  list-style: none;
-}
-.index ul ul {
-  margin: 0;
-}
-.index li {
-  margin: 0;
-  text-indent: -2em;
-  padding-left: 2em;
-  padding-bottom: 5px;
-}
-.indexIndex {
-  margin: 0.5em 0 1em;
-}
-.index a {
-  font-weight: 700;
-}
-/* make the index two-column on all but the smallest screens */
-@media (min-width: 500px) {
-  .index ul {
-    column-count: 2;
-    column-gap: 20px;
-  }
-  .index ul ul {
-    column-count: 1;
-    column-gap: 0;
-  }
+#rfc\.index\.index + ul {
+  margin-left: 0;
 }
 
 /* authors */
@@ -1006,6 +976,34 @@ address div.right {
   font-weight: bold;
   font-size: 0.9em;
 }
+
+/* Dark mode. */
+@media (prefers-color-scheme: dark) {
+:root {
+  --background-color: #121212;
+  --text-color: #f0f0f0;
+  --title-color: #fff;
+  --link-color: #4da4f0;
+  --highlight-color: #282828;
+  --line-color: #444;
+  --pilcrow-weak: #444;
+  --pilcrow-strong: #666;
+  scrollbar-color: #777 #333;
+}
+/* Trick: a prefix match works because only black and white are allowed */
+svg [stroke="black"], svg [stroke^="#000"] {
+  stroke: var(--text-color);
+}
+svg [stroke="white"], svg [stroke^="#fff"] {
+  stroke: var(--background-color);
+}
+svg [fill="black"], svg [fill^="#000"], svg :not([fill]) {
+  fill: var(--text-color);
+}
+svg [stroke="fill"], svg [fill^="#fff"] {
+  fill: var(--background-color);
+}
+}
 </style>
 
 </head>
@@ -1014,11 +1012,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">SVCB for DNS</td>
-<td class="right">October 2021</td>
+<td class="right">February 2022</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Schwartz</td>
-<td class="center">Expires 24 April 2022</td>
+<td class="center">Expires 5 August 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1031,12 +1029,12 @@ address div.right {
 <dd class="internet-draft">draft-ietf-add-svcb-dns-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-10-21" class="published">21 October 2021</time>
+<time datetime="2022-02-01" class="published">1 February 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-04-24">24 April 2022</time></dd>
+<dd class="expires"><time datetime="2022-08-05">5 August 2022</time></dd>
 <dt class="label-authors">Author:</dt>
 <dd class="authors">
 <div class="author">
@@ -1081,7 +1079,7 @@ address div.right {
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 24 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 5 August 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1090,7 +1088,7 @@ address div.right {
 <a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
         </h2>
 <p id="section-boilerplate.2-1">
-            Copyright (c) 2021 IETF Trust and the persons identified as the
+            Copyright (c) 2022 IETF Trust and the persons identified as the
             document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.2-2">
             This document is subject to BCP 78 and the IETF Trust's Legal
@@ -1099,9 +1097,9 @@ address div.right {
             publication of this document. Please review these documents
             carefully, as they describe your rights and restrictions with
             respect to this document. Code Components extracted from this
-            document must include Simplified BSD License text as described in
+            document must include Revised BSD License text as described in
             Section 4.e of the Trust Legal Provisions and are provided without
-            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+            warranty as described in the Revised BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="toc">
@@ -1157,6 +1155,14 @@ address div.right {
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
                 <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-adversary-on-the-query-path" class="xref">Adversary on the query path</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.1">
+                    <p id="section-toc.1-1.8.2.1.2.1.1"><a href="#section-8.1.1" class="xref">8.1.1</a>.  <a href="#name-downgrade-attacks" class="xref">Downgrade attacks</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.2">
+                    <p id="section-toc.1-1.8.2.1.2.2.1"><a href="#section-8.1.2" class="xref">8.1.2</a>.  <a href="#name-redirection-attacks" class="xref">Redirection attacks</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
                 <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-adversary-on-the-transport-" class="xref">Adversary on the transport path</a></p>
@@ -1210,7 +1216,7 @@ document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" 
 when, and only when, they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="identities-and-names">
+<div id="identity">
 <section id="section-3">
       <h2 id="name-identities-and-names">
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-identities-and-names" class="section-name selfRef">Identities and Names</a>
@@ -1348,8 +1354,10 @@ _dns.doh.example. 7200 IN SVCB 1 doh.example. (
 <pre>
 _dns.resolver.example.  7200 IN SVCB 1 resolver.example. (
     alpn=dot,h2,h3 dohpath=/dns-query{?dns} )
-_dns.resolver.example.  7200 IN SVCB 2 resolver.example. alpn=dot port=8530
-_dns.resolver.example.  7200 IN SVCB 3 fooexp port=5353 alpn=foo foo-info=...
+_dns.resolver.example.  7200 IN SVCB 2 resolver.example. (
+    alpn=dot port=8530 )
+_dns.resolver.example.  7200 IN SVCB 3 fooexp (
+      port=5353 alpn=foo foo-info=... )
 </pre><a href="#section-7-1.3.2.3.2" class="pilcrow">¶</a>
 </div>
 </li>
@@ -1378,9 +1386,24 @@ _dns.ns.example. 7200 IN SVCB 0 _dns.ns.nic.example.
         </h3>
 <p id="section-8.1-1">This section considers an adversary who can add or remove responses to the SVCB query.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="section-8.1-2">During secure transport establishment, clients MUST authenticate the server to its authentication name, which is not influenced by the SVCB record contents.  Accordingly, this draft does not mandate the use of DNSSEC.  This draft also does not specify how clients authenticate the name (e.g. selection of roots of trust), which might vary according to the context.<a href="#section-8.1-2" class="pilcrow">¶</a></p>
-<p id="section-8.1-3">Although this adversary cannot alter the authentication name of the service, it does have control of the port number and "dohpath" value.  As a result, the adversary can direct DNS queries for $HOSTNAME to any port on $HOSTNAME, and any path on "https://$HOSTNAME", even if $HOSTNAME is not actually a DNS server.  If the DNS client uses shared TLS or HTTP state, the client could be correctly authenticated (e.g. using a TLS client certificate or HTTP cookie).<a href="#section-8.1-3" class="pilcrow">¶</a></p>
-<p id="section-8.1-4">This behavior creates a number of possible attacks for certain server configurations.  For example, if "https://$HOSTNAME/upload" accepts any POST request as a public file upload, the adversary could forge a SVCB record containing <code>dohpath=/upload</code>.  This would cause the client to upload and publish every query, resulting in unexpected storage costs for the server and privacy loss for the client.<a href="#section-8.1-4" class="pilcrow">¶</a></p>
-<p id="section-8.1-5">To mitigate this attack, a client of this SVCB mapping MUST NOT provide client authentication for DNS queries, except to servers that it specifically knows are not vulnerable to such attacks, and a DoH service operator MUST ensure that all unauthenticated DoH requests to its origin maintain the DoH service's privacy guarantees, regardless of the path.  Also, if an alternative service endpoint sends an invalid response to a DNS query, the client SHOULD NOT send more queries to that endpoint.<a href="#section-8.1-5" class="pilcrow">¶</a></p>
+<div id="downgrade-attacks">
+<section id="section-8.1.1">
+          <h4 id="name-downgrade-attacks">
+<a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-downgrade-attacks" class="section-name selfRef">Downgrade attacks</a>
+          </h4>
+<p id="section-8.1.1-1">This attacker cannot impersonate the secure endpoint, but it can forge a response indicating that the requested SVCB records do not exist.  For a SVCB-reliant client (<span>[<a href="#SVCB" class="xref">SVCB</a>], <a href="https://datatracker.ietf.org/doc/html/draft-ietf-dnsop-svcb-https-08#section-3" class="relref">Section 3</a></span>) this only results in a denial of service.  However, SVCB-optional clients will generally fall back to insecure DNS in this case, exposing all DNS traffic to attacks.<a href="#section-8.1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="redirection-attacks">
+<section id="section-8.1.2">
+          <h4 id="name-redirection-attacks">
+<a href="#section-8.1.2" class="section-number selfRef">8.1.2. </a><a href="#name-redirection-attacks" class="section-name selfRef">Redirection attacks</a>
+          </h4>
+<p id="section-8.1.2-1">SVCB-reliant clients always enforce the authentication domain name, but they are still subject to attacks using the transport, port number, and "dohpath" value, which are controlled by this adversary.  By changing these values in the SVCB answers, the adversary can direct DNS queries for $HOSTNAME to any port on $HOSTNAME, and any path on "https://$HOSTNAME".  If the DNS client uses shared TLS or HTTP state, the client could be correctly authenticated (e.g. using a TLS client certificate or HTTP cookie).<a href="#section-8.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-8.1.2-2">This behavior creates a number of possible attacks for certain server configurations.  For example, if "https://$HOSTNAME/upload" accepts any POST request as a public file upload, the adversary could forge a SVCB record containing <code>dohpath=/upload</code>.  This would cause the client to upload and publish every query, resulting in unexpected storage costs for the server and privacy loss for the client.  Similarly, if two DoH endpoints are available on the same origin, and the service has designated one of them for use with this specification, this adversary can cause clients to use the other endpoint instead.<a href="#section-8.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-8.1.2-3">To mitigate redirection attacks, a client of this SVCB mapping MUST NOT provide client authentication for DNS queries, except to servers that it specifically knows are not vulnerable to such attacks.  If an endpoint sends an invalid response to a DNS query, the client SHOULD NOT send more queries to that endpoint.  DNS services that are identified by a hostname (<a href="#identity" class="xref">Section 3</a>) MUST ensure that all unauthenticated DNS requests to that name receive any promised privacy and security guarantees, regardless of transport, port number, or HTTP path.<a href="#section-8.1.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="adversary-on-the-transport-path">
@@ -1389,7 +1412,7 @@ _dns.ns.example. 7200 IN SVCB 0 _dns.ns.nic.example.
 <a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-adversary-on-the-transport-" class="section-name selfRef">Adversary on the transport path</a>
         </h3>
 <p id="section-8.2-1">This section considers an adversary who can modify network traffic between the client and the alternative service (identified by the TargetName).<a href="#section-8.2-1" class="pilcrow">¶</a></p>
-<p id="section-8.2-2">For a SVCB-reliant client (<span>[<a href="#SVCB" class="xref">SVCB</a>]</span> Section 3), this adversary can only cause a denial of service.  However, because DNS is unencrypted by default, this adversary can execute a downgrade attack against SVCB-optional clients.  Accordingly, when use of this specification is optional, clients SHOULD switch to SVCB-reliant behavior if SVCB resolution succeeds.  Specifications making using of this mapping MAY adjust this fallback behavior to suit their requirements.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
+<p id="section-8.2-2">For a SVCB-reliant client, this adversary can only cause a denial of service.  However, because DNS is unencrypted by default, this adversary can execute a downgrade attack against SVCB-optional clients.  Accordingly, when use of this specification is optional, clients SHOULD switch to SVCB-reliant behavior if SVCB resolution succeeds.  Specifications making using of this mapping MAY adjust this fallback behavior to suit their requirements.<a href="#section-8.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1399,7 +1422,7 @@ _dns.ns.example. 7200 IN SVCB 0 _dns.ns.nic.example.
       <h2 id="name-iana-considerations">
 <a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-9-1">Per <span>[<a href="#SVCB" class="xref">SVCB</a>]</span> IANA would be directed to add the following entry to the SVCB Service Parameters registry.<a href="#section-9-1" class="pilcrow">¶</a></p>
+<p id="section-9-1">Per <span>[<a href="#SVCB" class="xref">SVCB</a>]</span> IANA is directed to add the following entry to the SVCB Service Parameters registry.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <table class="center" id="table-1">
         <caption><a href="#table-1" class="selfRef">Table 1</a></caption>
 <thead>
@@ -1419,7 +1442,7 @@ _dns.ns.example. 7200 IN SVCB 0 _dns.ns.nic.example.
           </tr>
         </tbody>
       </table>
-<p id="section-9-3">Per <span>[<a href="#Attrleaf" class="xref">Attrleaf</a>]</span>, IANA would be directed to add the following entry to the DNS Underscore Global Scoped Entry Registry:<a href="#section-9-3" class="pilcrow">¶</a></p>
+<p id="section-9-3">Per <span>[<a href="#Attrleaf" class="xref">Attrleaf</a>]</span>, IANA is directed to add the following entry to the DNS Underscore Global Scoped Entry Registry:<a href="#section-9-3" class="pilcrow">¶</a></p>
 <table class="center" id="table-2">
         <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
 <thead>
@@ -1452,31 +1475,31 @@ _dns.ns.example. 7200 IN SVCB 0 _dns.ns.nic.example.
 <dl class="references">
 <dt id="DOH">[DOH]</dt>
         <dd>
-<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">P. McManus</span>, <span class="refTitle">"DNS Queries over HTTPS (DoH)"</span>, <span class="seriesInfo">RFC 8484</span>, <span class="seriesInfo">DOI 10.17487/RFC8484</span>, <time datetime="2018-10" class="refDate">October 2018</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8484">https://datatracker.ietf.org/doc/html/rfc8484</a>&gt;</span>. </dd>
+<span class="refAuthor">Hoffman, P.</span> and <span class="refAuthor">P. McManus</span>, <span class="refTitle">"DNS Queries over HTTPS (DoH)"</span>, <span class="seriesInfo">RFC 8484</span>, <span class="seriesInfo">DOI 10.17487/RFC8484</span>, <time datetime="2018-10" class="refDate">October 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8484">https://www.rfc-editor.org/rfc/rfc8484</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="DOT">[DOT]</dt>
         <dd>
-<span class="refAuthor">Hu, Z.</span>, <span class="refAuthor">Zhu, L.</span>, <span class="refAuthor">Heidemann, J.</span>, <span class="refAuthor">Mankin, A.</span>, <span class="refAuthor">Wessels, D.</span>, and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Specification for DNS over Transport Layer Security (TLS)"</span>, <span class="seriesInfo">RFC 7858</span>, <span class="seriesInfo">DOI 10.17487/RFC7858</span>, <time datetime="2016-05" class="refDate">May 2016</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc7858">https://datatracker.ietf.org/doc/html/rfc7858</a>&gt;</span>. </dd>
+<span class="refAuthor">Hu, Z.</span>, <span class="refAuthor">Zhu, L.</span>, <span class="refAuthor">Heidemann, J.</span>, <span class="refAuthor">Mankin, A.</span>, <span class="refAuthor">Wessels, D.</span>, and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Specification for DNS over Transport Layer Security (TLS)"</span>, <span class="seriesInfo">RFC 7858</span>, <span class="seriesInfo">DOI 10.17487/RFC7858</span>, <time datetime="2016-05" class="refDate">May 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7858">https://www.rfc-editor.org/rfc/rfc7858</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
-<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc2119">https://datatracker.ietf.org/doc/html/rfc2119</a>&gt;</span>. </dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3629">[RFC3629]</dt>
         <dd>
-<span class="refAuthor">Yergeau, F.</span>, <span class="refTitle">"UTF-8, a transformation format of ISO 10646"</span>, <span class="seriesInfo">STD 63</span>, <span class="seriesInfo">RFC 3629</span>, <span class="seriesInfo">DOI 10.17487/RFC3629</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3629">https://datatracker.ietf.org/doc/html/rfc3629</a>&gt;</span>. </dd>
+<span class="refAuthor">Yergeau, F.</span>, <span class="refTitle">"UTF-8, a transformation format of ISO 10646"</span>, <span class="seriesInfo">STD 63</span>, <span class="seriesInfo">RFC 3629</span>, <span class="seriesInfo">DOI 10.17487/RFC3629</span>, <time datetime="2003-11" class="refDate">November 2003</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3629">https://www.rfc-editor.org/rfc/rfc3629</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC3986">[RFC3986]</dt>
         <dd>
-<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc3986">https://datatracker.ietf.org/doc/html/rfc3986</a>&gt;</span>. </dd>
+<span class="refAuthor">Berners-Lee, T.</span>, <span class="refAuthor">Fielding, R.</span>, and <span class="refAuthor">L. Masinter</span>, <span class="refTitle">"Uniform Resource Identifier (URI): Generic Syntax"</span>, <span class="seriesInfo">STD 66</span>, <span class="seriesInfo">RFC 3986</span>, <span class="seriesInfo">DOI 10.17487/RFC3986</span>, <time datetime="2005-01" class="refDate">January 2005</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc3986">https://www.rfc-editor.org/rfc/rfc3986</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC6570">[RFC6570]</dt>
         <dd>
-<span class="refAuthor">Gregorio, J.</span>, <span class="refAuthor">Fielding, R.</span>, <span class="refAuthor">Hadley, M.</span>, <span class="refAuthor">Nottingham, M.</span>, and <span class="refAuthor">D. Orchard</span>, <span class="refTitle">"URI Template"</span>, <span class="seriesInfo">RFC 6570</span>, <span class="seriesInfo">DOI 10.17487/RFC6570</span>, <time datetime="2012-03" class="refDate">March 2012</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc6570">https://datatracker.ietf.org/doc/html/rfc6570</a>&gt;</span>. </dd>
+<span class="refAuthor">Gregorio, J.</span>, <span class="refAuthor">Fielding, R.</span>, <span class="refAuthor">Hadley, M.</span>, <span class="refAuthor">Nottingham, M.</span>, and <span class="refAuthor">D. Orchard</span>, <span class="refTitle">"URI Template"</span>, <span class="seriesInfo">RFC 6570</span>, <span class="seriesInfo">DOI 10.17487/RFC6570</span>, <time datetime="2012-03" class="refDate">March 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc6570">https://www.rfc-editor.org/rfc/rfc6570</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
-<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8174">https://datatracker.ietf.org/doc/html/rfc8174</a>&gt;</span>. </dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8174">https://www.rfc-editor.org/rfc/rfc8174</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="SVCB">[SVCB]</dt>
       <dd>
@@ -1491,11 +1514,11 @@ _dns.ns.example. 7200 IN SVCB 0 _dns.ns.nic.example.
 <dl class="references">
 <dt id="Attrleaf">[Attrleaf]</dt>
         <dd>
-<span class="refAuthor">Crocker, D.</span>, <span class="refTitle">"Scoped Interpretation of DNS Resource Records through "Underscored" Naming of Attribute Leaves"</span>, <span class="seriesInfo">BCP 222</span>, <span class="seriesInfo">RFC 8552</span>, <span class="seriesInfo">DOI 10.17487/RFC8552</span>, <time datetime="2019-03" class="refDate">March 2019</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc8552">https://datatracker.ietf.org/doc/html/rfc8552</a>&gt;</span>. </dd>
+<span class="refAuthor">Crocker, D.</span>, <span class="refTitle">"Scoped Interpretation of DNS Resource Records through "Underscored" Naming of Attribute Leaves"</span>, <span class="seriesInfo">BCP 222</span>, <span class="seriesInfo">RFC 8552</span>, <span class="seriesInfo">DOI 10.17487/RFC8552</span>, <time datetime="2019-03" class="refDate">March 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8552">https://www.rfc-editor.org/rfc/rfc8552</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="DNSURI">[DNSURI]</dt>
       <dd>
-<span class="refAuthor">Josefsson, S.</span>, <span class="refTitle">"Domain Name System Uniform Resource Identifiers"</span>, <span class="seriesInfo">RFC 4501</span>, <span class="seriesInfo">DOI 10.17487/RFC4501</span>, <time datetime="2006-05" class="refDate">May 2006</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/rfc4501">https://datatracker.ietf.org/doc/html/rfc4501</a>&gt;</span>. </dd>
+<span class="refAuthor">Josefsson, S.</span>, <span class="refTitle">"Domain Name System Uniform Resource Identifiers"</span>, <span class="seriesInfo">RFC 4501</span>, <span class="seriesInfo">DOI 10.17487/RFC4501</span>, <time datetime="2006-05" class="refDate">May 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4501">https://www.rfc-editor.org/rfc/rfc4501</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
