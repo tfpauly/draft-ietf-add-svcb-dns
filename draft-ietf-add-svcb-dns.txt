@@ -177,7 +177,7 @@ Table of Contents
 4.2.  port
 
    This key is used to indicate the target port for connection
-   ((Section 6.2 of [SVCB])).  If omitted, the client SHALL use the
+   (Section 6.2 of [SVCB]).  If omitted, the client SHALL use the
    default port for each transport protocol (853 for DNS over TLS [DOT],
    443 for DNS over HTTPS).
 
